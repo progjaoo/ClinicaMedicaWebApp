@@ -1,0 +1,59 @@
+﻿@page "/medicos/update/{Id:int}"
+@inherits UpdateMedicoPage
+
+<MudText Typo="Typo.h3">Edição de Médicos</MudText>
+
+<MudPaper Class="pa-8 mt-4">
+    <EditForm Model="@MedicoInputModel" OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator />
+
+        <MudTextField Label="Nome"
+                      Variant="Variant.Outlined"
+                      HelperText="Campo Obrigatório"
+                      @bind-Value="MedicoInputModel.Nome"
+                      For="@(() => MedicoInputModel.Nome)" />
+
+        <MudTextField Label="Documento"
+                      Variant="Variant.Outlined"
+                      HelperText="Campo Obrigatório"
+                      @bind-Value="MedicoInputModel.Cpf"
+                      Mask="@(new PatternMask("000.000.000-00"))"
+                      For="@(() => MedicoInputModel.Cpf)" />
+
+        <MudTextField Label="Celular"
+                      Variant="Variant.Outlined"
+                      HelperText="Campo Obrigatório"
+                      @bind-Value="MedicoInputModel.Celular"
+                      Mask="@(new PatternMask("(00) 0 0000-0000"))"
+                      For="@(() => MedicoInputModel.Celular)" />
+
+        <MudTextField Label="CRM"
+                      Variant="Variant.Outlined"
+                      HelperText="Campo Obrigatório"
+                      @bind-Value="MedicoInputModel.Crm"
+                      Mask="@(new PatternMask("aa-000000"))"
+                      For="@(() => MedicoInputModel.Crm)" />
+
+        <MudSelect Label="Especialidade"
+            Text=""
+            @bind-Value="MedicoInputModel.EspecialidadeId"
+            Variant="Variant.Outlined"
+            AnchorOrigin="Origin.BottomCenter"
+            For="@(() => MedicoInputModel.EspecialidadeId)">
+            
+            @foreach(var especialidade in Especialidades)
+            {
+                    <MudSelectItem Value="@especialidade.IdEspecialidade">@especialidade.Nome</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudDivider Class="m-4" />
+
+        <MudButton Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.Save"
+                   Color="Color.Info"
+                   Size="Size.Large"
+                   ButtonType="ButtonType.Submit">SALVAR</MudButton>
+
+    </EditForm>
+</MudPaper>
