@@ -9,5 +9,7 @@ namespace ClinicManageWebApp.Core.Interfaces
         Task AddAsync(Agendamento agendamento);
         Task UpdateAsync(Agendamento agendamento);
         Task DeleteAsync(int id);
+
+        Task<List<AgendamentosAnuais?>> GetReportAsync();
     }
 }

@@ -46,5 +46,12 @@ namespace ClinicManageWebApp.Infrastructure.Repositorios
             _dbcontext.Agendamentos.Remove(agendamento);
             await _dbcontext.SaveChangesAsync();
         }
+
+        public async Task<List<AgendamentosAnuais?>> GetReportAsync()
+        {
+            var result = _dbcontext.Database.SqlQuery<AgendamentosAnuais>($"SELECT MONTH(DataConsulta) AS Mes, COUNT(*) as QuantidadeAgendamentos FROM Agendamentos WHERE YEAR(DataConsulta) = {DateTime.Today.Year.ToString()} GROUP BY MONTH(DataConsulta) ORDER BY Mes;");
+        
+            return await Task.FromResult(result.ToList());
+        }
     }
 }
