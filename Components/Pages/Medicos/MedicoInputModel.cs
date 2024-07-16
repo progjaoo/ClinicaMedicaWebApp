@@ -23,7 +23,7 @@ namespace ClinicManageWebApp.Components.Pages.Medicos
         public DateTime? DataCadastro { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "Especialidade deve ser fornecida")]
-        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Valor selecionado é válido")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Valor selecionado é inválido")]
         public int EspecialidadeId { get; set; }
     }
 }

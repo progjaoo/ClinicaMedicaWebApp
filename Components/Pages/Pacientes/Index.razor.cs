@@ -1,6 +1,7 @@
 ﻿using ClinicManageWebApp.Core.Entidades;
 using ClinicManageWebApp.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 
 namespace ClinicManageWebApp.Components.Pages.Pacientes
@@ -16,6 +17,7 @@ namespace ClinicManageWebApp.Components.Pages.Pacientes
         [Inject]
         public NavigationManager NavigationManager { get; set; } = null!;
         public List<Paciente> Pacientes { get; set; } = new List<Paciente>();
+        public bool HideButtons { get; set; }
 
         public async Task DeletePaciente(Paciente paciente)
         {
@@ -44,8 +46,14 @@ namespace ClinicManageWebApp.Components.Pages.Pacientes
         {
             NavigationManager.NavigateTo($"/pacientes/update/{id}");
         }
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationState { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            var auth = await AuthenticationState;
+
+            HideButtons = !auth.User.IsInRole("Atendente");
+
             Pacientes = await repository.GetAllAsync();
         }
     }

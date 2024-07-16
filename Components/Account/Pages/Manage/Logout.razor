@@ -1,0 +1,13 @@
+﻿@page "/Account/Manage/logout"
+@using ClinicManageWebApp.Data
+@using Microsoft.AspNetCore.Identity
+@inject NavigationManager Navigation
+@inject SignInManager<ApplicationUser> SigInManager
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SigInManager.SignOutAsync();
+        Navigation.NavigateTo("/");
+    }
+}

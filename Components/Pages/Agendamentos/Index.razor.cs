@@ -3,38 +3,42 @@ using ClinicManageWebApp.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
+using System.Runtime.CompilerServices;
 
-namespace ClinicManageWebApp.Components.Pages.Medicos
+namespace ClinicManageWebApp.Components.Pages.Agendamentos
 {
-    public class IndexPage : ComponentBase
+    public class IndexAgendamentoPage : ComponentBase
     {
         [Inject]
-        public IMedicoRepository repository { get; set; } = null!;
+        private IAgendamentoRepository AgendamentoRepository { get; set; } = null!;
+        
         [Inject]
         public IDialogService DialogService { get; set; } = null!;
         [Inject]
+
         public ISnackbar Snackbar { get; set; } = null!;
         [Inject]
         public NavigationManager NavigationManager { get; set; } = null!;
-        public List<Medico> Medicos { get; set; } = new List<Medico>();
 
+        public List<Agendamento> Agendamentos { get; set; } = new List<Agendamento>();
         public bool HideButtons { get; set; }
 
-        public async Task DeleteMedico(Medico medico)
+
+        public async Task DeleteAgendamento(Agendamento agendamento)
         {
             try
             {
                 var result = await DialogService.ShowMessageBox
                     (
                         "ATENÇÃO",
-                         $"Deseja excluir o {medico.Nome}?",
+                         $"Deseja excluir o agendamento?",
                          yesText: "Sim",
                          cancelText: "Não"
                     );
                 if (result is true)
                 {
-                    await repository.DeleteAsync(medico.IdMedico);
-                    Snackbar.Add($"Paciente {medico.Nome} excluído com sucesso!", Severity.Success);
+                    await AgendamentoRepository.DeleteAsync(agendamento.IdAgendamento);
+                    Snackbar.Add($"Agendamento excluído com sucesso!", Severity.Success);
                     await OnInitializedAsync();
                 }
             }
@@ -43,11 +47,6 @@ namespace ClinicManageWebApp.Components.Pages.Medicos
                 Snackbar.Add(ex.Message, Severity.Error);
             }
         }
-        public void GoToUpdate(int id)
-        {
-            NavigationManager.NavigateTo($"/medicos/update/{id}");
-        }
-
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationState { get; set; }
         protected override async Task OnInitializedAsync()
@@ -56,7 +55,11 @@ namespace ClinicManageWebApp.Components.Pages.Medicos
 
             HideButtons = !auth.User.IsInRole("Atendente");
 
-            Medicos = await repository.GetAllAsync();
+            Agendamentos = await AgendamentoRepository.GetAllAsync();
+        }
+        public void GoToUpdate(int id)
+        {
+            NavigationManager.NavigateTo($"/agendamentos/update/{id}");
         }
     }
 }

@@ -2,11 +2,10 @@
 {
     public class Agendamento
     {
-        public int IdAgendamento { get; private set; }
-        public string? Observacao { get; private set; }
-        public TimeSpan HoraConsulta { get; private set; }
-        public DateTime? DataConsulta { get; private set; }
-
+        public int IdAgendamento { get;  set; }
+        public string? Observacao { get; set; }
+        public TimeSpan HoraConsulta { get;  set; }
+        public DateTime DataConsulta { get; set; }
         public int MedicoId { get; set; }
         public int PacienteId { get; set; }
         public Medico Medico { get; set; } = null!;

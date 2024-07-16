@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
-
-<MudThemingProvider />
+@inject NavigationManager Navigation
+<MudThemingProvider IsDarkMode="_isDark"/>
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -8,9 +8,25 @@
 <MudLayout>
     <MudAppBar Elevation="1">
 		<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
+        <MudText Typo="Typo.h5" Class="ml-3">Clinica Pro Consulta</MudText>
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        <MudStack Row>
+
+            @if (_isDark)
+            {
+                <MudIconButton @onclick="ThemeToogle" Icon="@Icons.Material.Filled.WbSunny" Color="Color.Inherit"></MudIconButton>
+            }
+            else
+            {
+                <MudIconButton @onclick="ThemeToogle" Icon="@Icons.Material.Filled.DarkMode" Color="Color.Inherit"></MudIconButton>
+
+            }
+
+            <AuthorizeView>
+                <MudIconButton @onclick="LogOff" Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit"></MudIconButton>
+            </AuthorizeView>
+
+        </MudStack>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />
@@ -22,9 +38,18 @@
 
 @code {
     private bool _drawerOpen = true;
+    private bool _isDark = true;
 
     private void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+    private void ThemeToogle()
+    {
+        _isDark = !_isDark;
+    }
+    private void LogOff()
+    {
+        Navigation.NavigateTo("/Account/Manage/logout");
     }
 }

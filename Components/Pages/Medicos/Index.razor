@@ -23,12 +23,14 @@ Groupable="false">
                 <MudStackRow>
                     <MudFab Size="Size.Small"
                             Label="Editar"
+                            hidden="@HideButtons"
                             OnClick="@(() => GoToUpdate(context.Item.IdMedico))"
                             StartIcon="@Icons.Material.Filled.Edit"
                             Color="Color.Success"/>
 
                     <MudFab Size="Size.Small"
                             Label="Excluir"
+                            hidden="@HideButtons"
                             OnClick="@(() => DeleteMedico(context.Item))"
                             StartIcon="@Icons.Material.Filled.Delete"
                             Color="Color.Error"/>
